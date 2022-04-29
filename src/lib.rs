@@ -5,13 +5,17 @@ use std::fs::File;
 use std::process;
 use std::fs;
 
+pub fn file()->String{
+    String::from(r#"D:\temp\contents.txt"#)
+}
+
 pub fn update_list(a:String){
     
     let v: Value = serde_json::from_str(&a).expect("Unable to convert to JSON");
     let f = OpenOptions::new()
         .append(true)
         .create(true)
-        .open(r#"D:\temp\contents.txt"#)
+        .open(file())
         .expect("Unable to open file");
     let mut f = BufWriter::new(f);
     let data: String=format!("{}~\n",v);
@@ -20,7 +24,7 @@ pub fn update_list(a:String){
 
 pub fn read_all()->String{
 
-    let f = File::open(r#"D:\temp\contents.txt"#).unwrap_or_else(|err| {
+    let f = File::open(file()).unwrap_or_else(|err| {
     println!("Unable to open paramter file due the error: {}",err);
     process::exit(1);
     });
@@ -39,7 +43,7 @@ pub fn read_all()->String{
 
 pub fn return_update()->String{
     let mut vec = Vec::new();//Create a vector
-    let f = File::open(r#"D:\temp\contents.txt"#).unwrap_or_else(|err| {
+    let f = File::open(file()).unwrap_or_else(|err| {
     println!("Unable to open paramter file due the error: {}",err);
     process::exit(1);
     });//open file
@@ -55,11 +59,11 @@ pub fn return_update()->String{
     let first = splitter.next().expect("Unable to split the key from file").trim().to_string();
 
     vec.remove(0);
-    fs::remove_file(r#"D:\temp\contents.txt"#).expect("Unable to delete the file");
+    fs::remove_file(file()).expect("Unable to delete the file");
      let f = OpenOptions::new()
         .append(true)
         .create(true)
-        .open(r#"D:\temp\contents.txt"#)
+        .open(file())
         .expect("Unable to open file");
     let mut f = BufWriter::new(f);
     for x in vec.iter(){
