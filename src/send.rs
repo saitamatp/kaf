@@ -19,7 +19,7 @@ pub fn handle_connection(mut stream: TcpStream) {
 
         status_line=String::from("HTTP/1.1 200 OK");
         let v=read_all();
-        contents=v;
+        contents=format!("[{}]",v);
     }
     else 
     if buffer.starts_with(post)
